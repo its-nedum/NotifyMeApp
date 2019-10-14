@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect }  from 'react-redux'
+import { createProject } from '../../store/actions/projectActions';
 
 export class CreateProject extends Component {
     state = {
@@ -14,13 +16,14 @@ export class CreateProject extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
+        //console.log(this.state);
+        this.props.createProject(this.state)
     }
     render() {
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmit} className="white">
-                    <h5 className="grey-text text-darken-3">Sign In</h5>
+                    <h5 className="grey-text text-darken-3">Create Project</h5>
                     <div className="input-field">
                         <label htmlFor="title">Title</label>
                         <input type="text" id="title" onChange={this.handleChange}/>
@@ -38,4 +41,10 @@ export class CreateProject extends Component {
     }
 }
 
-export default CreateProject
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createProject: (project) => dispatch(createProject(project))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(CreateProject)
