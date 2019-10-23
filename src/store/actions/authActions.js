@@ -1,7 +1,7 @@
 export const signIn = (credentials) => {
     return (dispatch, getState, {getFirebase}) => {
         const firebase = getFirebase();
-        firebase.auth().signInWithEmailAndPassword('emesuechinedu@gmail.com', 'qwerty').then( () => {
+        firebase.auth().signInWithEmailAndPassword(credentials.email[0], credentials.password[0]).then( () => {
             dispatch({ type: 'LOGIN_SUCCESS' })
         }).catch( (err) => {
             dispatch({ type: 'LOGIN_ERROR', err })
@@ -24,13 +24,13 @@ export const signUp = (newUser) => {
         const firestore = getFirestore();
 
         firebase.auth().createUserWithEmailAndPassword(
-            newUser.email,
-            newUser.password
+            newUser.email[0],
+            newUser.password[0]
         ).then( (res) => {
             return firestore.collection('users').doc(res.user.uid).set({
                 firstName: newUser.firstName,
                 lastName: newUser.lastName,
-                initials: newUser.firstName[0] + newUser.lastName[0]
+                initials: newUser.firstName[0][0] + newUser.lastName[0][0]
             })
         }).then( () => {
             dispatch({ type: 'SIGNUP_SUCCESS' })
